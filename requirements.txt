@@ -28,3 +28,6 @@ ruamel.yaml==0.16.12
 
 # API
 fastapi==0.70.0
+
+## CLI
+fire==0.4.0
