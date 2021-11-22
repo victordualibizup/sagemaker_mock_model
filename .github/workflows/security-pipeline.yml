@@ -1,0 +1,49 @@
+#Version : 0.1
+
+name: Security Pipeline
+
+on:
+  push:
+    branches: [ master, qa ]
+  pull_request:
+    branches: [ master, qa ]
+
+# Horus Job
+jobs:
+  Sast:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout
+       uses: actions/checkout@master
+     - name: Setup Snyk
+       uses: snyk/actions/setup@master
+     - name: Setup Python
+       uses: actions/setup-python@v2
+       with:
+           python-version: '3.x'
+     - name: Installing Python Dependencies
+       run: find . -maxdepth 5 -type f -not -path '*/\.*' -name 'requirements.txt' -exec pip install -r '{}' ';'
+     - name: Setup Node
+       uses: actions/setup-node@v1
+     - name: Installing Node Dependencies
+       run: |
+        find . -maxdepth 5 -type f -not -path '*/\.*' -name 'package.json' -exec sh -c 'echo $0 | sed -e "s/\<package.json\>//g"|xargs -n 3 npm install -g' '{}' \;
+     - name: Setup Java
+       uses: actions/setup-java@v2
+       with:
+          java-version: '11'
+          distribution: 'adopt'
+
+     - name: Running Snyk
+       run: snyk test --all-projects
+       continue-on-error: true
+       env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+
+     - name: Running Horus Security
+       env:
+        HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ secrets.HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
+       run: |
+        curl -fsSL https://horusec.io/bin/install.sh | bash
+        horusec start -p ./ -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -G "true" -u "https://api-horusec.zup.com.br" -n "${GITHUB_REPOSITORY}"

@@ -1,0 +1,68 @@
+# Project Overview
+author: Victor Rabêllo 
+squad: Bella-Insights
+
+# Package Overview
+package_name: sg_custom_catboost
+
+# Data Files
+training_data_file: drinks_data_train.csv
+new_data_file: drinks_data_valid.csv
+pytest_df: fixture_test_df.csv
+
+# Pipeline
+pipeline_name: regression_model_iac
+pipeline_save_file: regression_model_output_iac
+
+# Variables
+target: ibu
+
+# TargetDiffTransformer Variables
+diff_create_var:
+  - target_fg
+  - target_og
+
+target_dg: target_dg
+
+# Variables for Upper Bound Filter
+filter_ph: ph
+filter_srm: srm
+filter_ebc: ebc
+filter_ibu: ibu
+
+ph_limit: 14
+srm_limit: 40
+ebc_limit: 80
+ibu_limit: 120
+
+# Variables for Missing Imputer
+imputer_variables:
+  - abv
+  - target_fg
+  - target_og
+  - ebc
+  - srm
+  - ph
+
+# Standard Scaler Variable Drop
+no_standard_scaler_variables:
+  - ibu
+
+# Drop Train Dataset Variables
+to_drop_train:
+  - id
+  - name
+
+# Pipeline Transformer Names
+target_diff_transformer_name: create_target_diff_var
+drop_variables_transformer_name: drop_variables
+standard_scaler_transformer_name: standard_scaler
+
+# CatBoost Configuration
+catboost_params:
+  iterations: 450.0
+  learning_rate: 0.01
+
+# Split Configuration
+random_state: 16
+test_size: 0.25
