@@ -8,11 +8,13 @@ import sg_custom_catboost
 
 PACKAGE_ROOT = Path(sg_custom_catboost.__file__).resolve().parent
 ROOT = PACKAGE_ROOT.parent
-DATA_DIR = ROOT / "data"
-DATASET_DIR = DATA_DIR / "processed"
+ARTIFACTS_DIR = ROOT / "artifacts"
+DATA_DIR = ARTIFACTS_DIR / "data"
+RAW_DATASET_DIR = DATA_DIR / "raw"
+PROCESSED_DATASET_DIR = DATA_DIR / "processed"
+TRAINED_MODEL_DIR = ARTIFACTS_DIR / "trained_models"
+PIPELINE_DIR = ARTIFACTS_DIR / "pipeline"
 CONFIG_FILE_PATH = ROOT / "config.yml"
-TRAINED_MODEL_DIR = ROOT / "trained_models"
-PIPELINE_DIR = ROOT / "pipeline"
 
 
 class AppConfig(BaseModel):
@@ -25,14 +27,17 @@ class AppConfig(BaseModel):
     training_data_file: str
     new_data_file: str
     pytest_df: str
+    latest_timestamp: str
+    processed_train_data: str
+    processed_test_data: str
+    model_name: str
+    pipeline_name: str
 
 
 class ModelConfig(BaseModel):
     """
     Configuration for model purposes.
     """
-    model_name: str
-    pipeline_name: str
     model_save_file: str
     target: str
     diff_create_var: List[str]
@@ -46,7 +51,7 @@ class ModelConfig(BaseModel):
     ebc_limit: int
     ibu_limit: int
     imputer_variables: List[str]
-    no_standard_scaler_variables: str
+    no_standard_scaler_variables: List
     to_drop_train: List[str]
     target_diff_transformer_name: str
     drop_variables_transformer_name: str
