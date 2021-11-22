@@ -14,6 +14,7 @@ RAW_DATASET_DIR = DATA_DIR / "raw"
 PROCESSED_DATASET_DIR = DATA_DIR / "processed"
 TRAINED_MODEL_DIR = ARTIFACTS_DIR / "trained_models"
 PIPELINE_DIR = ARTIFACTS_DIR / "pipeline"
+METRICS_DIR = ARTIFACTS_DIR / "metrics"
 CONFIG_FILE_PATH = ROOT / "config.yml"
 
 
@@ -26,12 +27,16 @@ class AppConfig(BaseModel):
     package_name: str
     training_data_file: str
     new_data_file: str
+    prod_data_file: str
     pytest_df: str
     latest_timestamp: str
     processed_train_data: str
     processed_test_data: str
     model_name: str
     pipeline_name: str
+    latest_train_data: str
+    latest_test_data: str
+    metrics_file_name: str
 
 
 class ModelConfig(BaseModel):
