@@ -12,6 +12,7 @@ DATA_DIR = ROOT / "data"
 DATASET_DIR = DATA_DIR / "processed"
 CONFIG_FILE_PATH = ROOT / "config.yml"
 TRAINED_MODEL_DIR = ROOT / "trained_models"
+PIPELINE_DIR = ROOT / "pipeline"
 
 
 class AppConfig(BaseModel):
