@@ -13,7 +13,7 @@ pytest_df: fixture_test_df.csv
 # Model and Pipeline
 model_name: catboost_model_latest
 model_save_file: catboost_model_latest_output
-pipeline_name: pipeline_example
+pipeline_name: example_pipeline
 
 # Variables
 target: ibu
