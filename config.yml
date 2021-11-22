@@ -8,15 +8,19 @@ package_name: sg_custom_catboost
 # Data Files
 training_data_file: drinks_data_train.csv
 new_data_file: drinks_data_valid.csv
+prod_data_file: drinks_data_prod.csv
 pytest_df: fixture_test_df.csv
 latest_timestamp: latest
 processed_train_data: data_train
 processed_test_data: data_test
 pipeline_name: example_pipeline.pkl
+latest_train_data: data_train_latest.csv
+latest_test_data: data_test_latest.csv
+metrics_file_name: metrics
 
 # Model and Pipeline
-model_name: catboost_model_latest
-model_save_file: catboost_model_latest_output
+model_name: catboost_model_latest.pkl
+model_save_file: catboost_model_output
 
 # Variables
 target: ibu
