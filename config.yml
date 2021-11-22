@@ -10,9 +10,10 @@ training_data_file: drinks_data_train.csv
 new_data_file: drinks_data_valid.csv
 pytest_df: fixture_test_df.csv
 
-# Pipeline
-pipeline_name: regression_model_iac
-pipeline_save_file: regression_model_output_iac
+# Model and Pipeline
+model_name: catboost_model_latest
+model_save_file: catboost_model_latest_output
+pipeline_name: pipeline_example
 
 # Variables
 target: ibu

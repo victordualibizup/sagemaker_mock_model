@@ -30,8 +30,9 @@ class ModelConfig(BaseModel):
     """
     Configuration for model purposes.
     """
+    model_name: str
     pipeline_name: str
-    pipeline_save_file: str
+    model_save_file: str
     target: str
     diff_create_var: List[str]
     target_dg: str
