@@ -61,7 +61,9 @@ class ModelConfig(BaseModel):
     target_diff_transformer_name: str
     drop_variables_transformer_name: str
     standard_scaler_transformer_name: str
-    catboost_params: Dict[str, float]
+    catboost_itr: float
+    catboost_lr: float
+    catboost_logging_state: str
     random_state: int
     test_size: float
 

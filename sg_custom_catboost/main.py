@@ -137,7 +137,9 @@ def train_model() -> None:
     y_test = processed_test_data[config.model_config.target]
 
     model = CatBoostRegressor(
-        **config.model_config.catboost_params
+        iterations=config.model_config.catboost_itr,
+        learning_rate=config.model_config.catboost_lr,
+        logging_level=config.model_config.catboost_logging_state
     )
 
     model.fit(
@@ -154,6 +156,7 @@ def train_model() -> None:
         config.model_config.model_save_file
     )
 
+
 def run():
     """
     Runs all model pipeline sequentially.
@@ -164,13 +167,13 @@ def run():
     features()
     train_model()
 
+
 def cli():
     """ Caller to transform module in a low-level CLI """
     return fire.Fire()
+
 
 if __name__ == "__main__":
     from sg_custom_catboost.features import *
 
     cli()
-
-

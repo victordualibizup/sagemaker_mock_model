@@ -67,9 +67,9 @@ drop_variables_transformer_name: drop_variables
 standard_scaler_transformer_name: standard_scaler
 
 # CatBoost Configuration
-catboost_params:
-  iterations: 450.0
-  learning_rate: 0.01
+catboost_itr: 450.0
+catboost_lr: 0.01
+catboost_logging_state: Silent
 
 # Split Configuration
 random_state: 16
