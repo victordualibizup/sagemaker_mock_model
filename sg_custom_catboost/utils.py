@@ -158,8 +158,6 @@ def save_regression_metrics(
             json.dump(metrics_dict, fp)
 
 
-
-
 def define_timestamp():
     """
     Return the actual timeframe.
@@ -171,6 +169,7 @@ def define_timestamp():
     """
     timeframe = str(pd.to_datetime("today"))[0:19]
     return timeframe
+
 
 def filter_dataframe(dataframe: pd.DataFrame) -> pd.DataFrame:
     """
@@ -190,3 +189,49 @@ def filter_dataframe(dataframe: pd.DataFrame) -> pd.DataFrame:
     df = df[df[config.model_config.filter_srm] <= config.model_config.srm_limit]
     return df
 
+
+def create_data_split(dataframe: pd.DataFrame):
+    """
+
+    Parameters
+    ----------
+    dataframe
+
+    Returns
+    -------
+
+    """
+    data_features = dataframe.drop(
+        config.model_config.target,
+        axis=1
+    )
+
+    data_target = dataframe[
+        config.model_config.target
+    ]
+
+    model_data_dict = {
+        config.app_config.model_data_features: data_features,
+        config.app_config.model_data_target: data_target
+    }
+
+    return model_data_dict
+
+
+def create_processed_data_split(dataframe: pd.DataFrame, pipeline):
+    """
+
+    Parameters
+    ----------
+    dataframe
+    pipeline
+
+    Returns
+    -------
+
+    """
+    model_data = pipeline.fit_transform(dataframe)
+
+    processed_model_data_dict = create_data_split(model_data)
+
+    return processed_model_data_dict
