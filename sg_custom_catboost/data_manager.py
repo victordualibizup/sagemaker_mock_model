@@ -1,12 +1,18 @@
+import pickle
 import typing as t
 from pathlib import Path
-import pickle
+
 import joblib
 import pandas as pd
 from sklearn.pipeline import Pipeline
-from sg_custom_catboost.config.core import RAW_DATASET_DIR, PROCESSED_DATASET_DIR, PIPELINE_DIR, TRAINED_MODEL_DIR, \
-    config
-from sg_custom_catboost.features import *
+
+from sg_custom_catboost.config.core import (
+    PIPELINE_DIR,
+    PROCESSED_DATASET_DIR,
+    RAW_DATASET_DIR,
+    TRAINED_MODEL_DIR,
+    config,
+)
 
 # TODO: FIX VERSION VARIABLE
 _version = "0.0.1"

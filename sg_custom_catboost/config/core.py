@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, List
+from typing import List
 
 from pydantic import BaseModel
 from strictyaml import YAML, load
@@ -22,6 +22,7 @@ class AppConfig(BaseModel):
     """
     Configuration not relevant for model.
     """
+
     author: str
     squad: str
     package_name: str
@@ -43,11 +44,11 @@ class AppConfig(BaseModel):
     model_data_model: str
 
 
-
 class ModelConfig(BaseModel):
     """
     Configuration for model purposes.
     """
+
     model_save_file: str
     target: str
     diff_create_var: List[str]

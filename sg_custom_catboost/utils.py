@@ -1,20 +1,22 @@
-import os
 import json
-import pandas as pd
-import numpy as np
+import os
 from typing import List
+
+import numpy as np
+import pandas as pd
 from sklearn import metrics
 from sklearn.preprocessing import StandardScaler
-from sg_custom_catboost.config.core import config, METRICS_DIR
+
+from sg_custom_catboost.config.core import METRICS_DIR, config
 
 
 def fix_standard_scaler_variables(
-        variables_list: List,
-        target_dataframe: pd.DataFrame,
-        original_dataframe: pd.DataFrame
+    variables_list: List,
+    target_dataframe: pd.DataFrame,
+    original_dataframe: pd.DataFrame,
 ) -> pd.DataFrame:
     """
-    Return proper variables without Standard Scaler 
+    Return proper variables without Standard Scaler
     transformation.
 
     Args:
@@ -34,12 +36,11 @@ def fix_standard_scaler_variables(
 
 
 def standard_scaler_dataframe(
-        target_dataframe: pd.DataFrame,
-        original_dataframe: pd.DataFrame
+    target_dataframe: pd.DataFrame, original_dataframe: pd.DataFrame
 ) -> pd.DataFrame:
     """
     Applies StandardScaler method and return a structured dataframe.
-    
+
     Args:
         target_dataframe (pd.DataFrame): The transformed dataframe.
         original_dataframe (pd.DataFrame): The original dataframe.
@@ -52,7 +53,7 @@ def standard_scaler_dataframe(
     transformed_dataframe = pd.DataFrame(
         transformed_dataframe,
         index=original_dataframe.index,
-        columns=original_dataframe.columns
+        columns=original_dataframe.columns,
     )
 
     return transformed_dataframe
@@ -73,18 +74,14 @@ def drop_target_variable(dataframe: pd.DataFrame) -> pd.DataFrame:
     """
 
     df = dataframe.copy()
-    df = df.drop(
-        config.model_config.target,
-        axis=1
-    )
+    df = df.drop(config.model_config.target, axis=1)
 
     return df
 
 
 def generate_regression_metrics(
-        y_test: pd.DataFrame,
-        y_pred: pd.DataFrame,
-        verbose=False):
+    y_test: pd.DataFrame, y_pred: pd.DataFrame, verbose=False
+):
     """
 
     Parameters
@@ -101,12 +98,7 @@ def generate_regression_metrics(
     rmse = np.sqrt(mse)
     r2 = metrics.r2_score(y_test, y_pred)
 
-    metrics_dict = {
-        "MAE": mae,
-        "MSE": mse,
-        "RMSE": rmse,
-        "R2": r2
-    }
+    metrics_dict = {"MAE": mae, "MSE": mse, "RMSE": rmse, "R2": r2}
 
     if verbose:
         print("Mean Absolute Error    :", round(mae, 3))
@@ -117,44 +109,27 @@ def generate_regression_metrics(
     return metrics_dict
 
 
-def save_regression_metrics(
-        y_test: pd.DataFrame,
-        y_pred: pd.DataFrame):
-    metrics_dict = generate_regression_metrics(
-        y_test,
-        y_pred,
-        verbose=True
-    )
+def save_regression_metrics(y_test: pd.DataFrame, y_pred: pd.DataFrame):
+    metrics_dict = generate_regression_metrics(y_test, y_pred, verbose=True)
 
     timestamp = define_timestamp()
 
     metrics_timestamp = "{}_{}.json".format(
-        config.app_config.metrics_file_name,
-        timestamp
+        config.app_config.metrics_file_name, timestamp
     )
 
     train_data_name_latest = "{}_{}.json".format(
-        config.app_config.metrics_file_name,
-        config.app_config.latest_timestamp
+        config.app_config.metrics_file_name, config.app_config.latest_timestamp
     )
 
-    metrics_path_timestamp = os.path.join(
-        METRICS_DIR,
-        metrics_timestamp
-    )
+    metrics_path_timestamp = os.path.join(METRICS_DIR, metrics_timestamp)
 
-    metrics_path_latest = os.path.join(
-        METRICS_DIR,
-        train_data_name_latest
-    )
+    metrics_path_latest = os.path.join(METRICS_DIR, train_data_name_latest)
 
-    metrics_path_list = [
-        metrics_path_timestamp,
-        metrics_path_latest
-    ]
+    metrics_path_list = [metrics_path_timestamp, metrics_path_latest]
 
     for path in metrics_path_list:
-        with open(path, 'w') as fp:
+        with open(path, "w") as fp:
             json.dump(metrics_dict, fp)
 
 
@@ -201,18 +176,13 @@ def create_data_split(dataframe: pd.DataFrame):
     -------
 
     """
-    data_features = dataframe.drop(
-        config.model_config.target,
-        axis=1
-    )
+    data_features = dataframe.drop(config.model_config.target, axis=1)
 
-    data_target = dataframe[
-        config.model_config.target
-    ]
+    data_target = dataframe[config.model_config.target]
 
     model_data_dict = {
         config.app_config.model_data_features: data_features,
-        config.app_config.model_data_target: data_target
+        config.app_config.model_data_target: data_target,
     }
 
     return model_data_dict

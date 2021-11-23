@@ -1,9 +1,8 @@
-import pandas as pd
-import pickle
 import os
+
 import fire
-from sklearn import metrics
-from sg_custom_catboost import pipeline, data_manager, utils, modelling
+
+from sg_custom_catboost import data_manager, modelling, utils
 from sg_custom_catboost.config.core import PROCESSED_DATASET_DIR, config
 
 
@@ -21,80 +20,52 @@ def features() -> None:
     timestamp = utils.define_timestamp()
 
     train_data_name_timestamp = "{}_{}.csv".format(
-        config.app_config.processed_train_data,
-        timestamp
+        config.app_config.processed_train_data, timestamp
     )
 
     train_data_name_latest = "{}_{}.csv".format(
-        config.app_config.processed_train_data,
-        config.app_config.latest_timestamp
+        config.app_config.processed_train_data, config.app_config.latest_timestamp
     )
 
     train_data_path_timestamp = os.path.join(
-        PROCESSED_DATASET_DIR,
-        train_data_name_timestamp
+        PROCESSED_DATASET_DIR, train_data_name_timestamp
     )
 
-    train_data_path_latest = os.path.join(
-        PROCESSED_DATASET_DIR,
-        train_data_name_latest
-    )
+    train_data_path_latest = os.path.join(PROCESSED_DATASET_DIR, train_data_name_latest)
 
     test_data_name_timestamp = "{}_{}.csv".format(
-        config.app_config.processed_test_data,
-        timestamp
+        config.app_config.processed_test_data, timestamp
     )
 
     test_data_name_latest = "{}_{}.csv".format(
-        config.app_config.processed_test_data,
-        config.app_config.latest_timestamp
+        config.app_config.processed_test_data, config.app_config.latest_timestamp
     )
 
     test_data_path_timestamp = os.path.join(
-        PROCESSED_DATASET_DIR,
-        test_data_name_timestamp
+        PROCESSED_DATASET_DIR, test_data_name_timestamp
     )
 
-    test_data_path_latest = os.path.join(
-        PROCESSED_DATASET_DIR,
-        test_data_name_latest
-    )
+    test_data_path_latest = os.path.join(PROCESSED_DATASET_DIR, test_data_name_latest)
 
     train_data = data_manager.load_dataset(
         file_name=config.app_config.training_data_file
     )
 
-    test_data = data_manager.load_dataset(
-        file_name=config.app_config.new_data_file
-    )
+    test_data = data_manager.load_dataset(file_name=config.app_config.new_data_file)
 
     # TODO: CREATE AND SAVE PIPELINE
-    pipeline = data_manager.load_pipeline(
-        file_name=config.app_config.pipeline_name
-    )
+    pipeline = data_manager.load_pipeline(file_name=config.app_config.pipeline_name)
 
     train_model_data = pipeline.fit_transform(train_data)
     test_model_data = pipeline.fit_transform(test_data)
 
-    train_model_data.to_csv(
-        train_data_path_timestamp,
-        index=False
-    )
+    train_model_data.to_csv(train_data_path_timestamp, index=False)
 
-    train_model_data.to_csv(
-        train_data_path_latest,
-        index=False
-    )
+    train_model_data.to_csv(train_data_path_latest, index=False)
 
-    test_model_data.to_csv(
-        test_data_path_timestamp,
-        index=False
-    )
+    test_model_data.to_csv(test_data_path_timestamp, index=False)
 
-    test_model_data.to_csv(
-        test_data_path_latest,
-        index=False
-    )
+    test_model_data.to_csv(test_data_path_latest, index=False)
 
 
 # TODO: REFACTOR THIS FUNCTION
@@ -107,8 +78,7 @@ def train_model() -> None:
     """
     processed_train_data = utils.filter_dataframe(
         data_manager.load_dataset(
-            file_name=config.app_config.latest_train_data,
-            raw_data=False
+            file_name=config.app_config.latest_train_data, raw_data=False
         )
     )
 
@@ -120,9 +90,7 @@ def train_model() -> None:
 
     # TODO: CREATE MODEL TIMESTAMP AND LATEST
     utils.save_regression_metrics(data_target, predictions)
-    data_manager.save_model(
-        model
-    )
+    data_manager.save_model(model)
 
 
 def evaluate_model() -> None:
@@ -135,8 +103,7 @@ def evaluate_model() -> None:
 
     processed_test_data = utils.filter_dataframe(
         data_manager.load_dataset(
-            file_name=config.app_config.latest_test_data,
-            raw_data=False
+            file_name=config.app_config.latest_test_data, raw_data=False
         )
     )
 

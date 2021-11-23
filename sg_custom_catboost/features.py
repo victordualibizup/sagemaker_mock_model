@@ -1,9 +1,10 @@
-import numpy as np
-import pandas as pd
 from typing import List
+
+import pandas as pd
+from sklearn.base import BaseEstimator, TransformerMixin
+
 from sg_custom_catboost import utils
 from sg_custom_catboost.config.core import config
-from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class TargetDiffTransformer(BaseEstimator, TransformerMixin):
@@ -39,9 +40,10 @@ class SelectVariablesTransformers(BaseEstimator, TransformerMixin):
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         Y = X.copy()
         Y = Y.drop(self.variables_list, axis=1)
-        
+
         return Y
-    
+
+
 class StandardScalerTransformers(BaseEstimator, TransformerMixin):
     """
     Transformer which creates the standard scaled dataframe.
@@ -57,5 +59,5 @@ class StandardScalerTransformers(BaseEstimator, TransformerMixin):
         Y = X.copy()
         Y = utils.standard_scaler_dataframe(Y, X)
         Y = utils.fix_standard_scaler_variables(self.variables_list, Y, X)
-        
+
         return Y
