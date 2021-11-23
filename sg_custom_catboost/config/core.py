@@ -37,6 +37,11 @@ class AppConfig(BaseModel):
     latest_train_data: str
     latest_test_data: str
     metrics_file_name: str
+    model_data_features: str
+    model_data_target: str
+    model_data_predictions: str
+    model_data_model: str
+
 
 
 class ModelConfig(BaseModel):
