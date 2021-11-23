@@ -56,7 +56,7 @@ def save_model(file_name: str) -> None:
     """
 
     # Prepare versioned save file name
-    save_file_name = f"{config.model_config.model_save_file}{_version}.pkl"
+    save_file_name = f"{config.model_config.model_save_file}"
     save_path = TRAINED_MODEL_DIR / save_file_name
 
     joblib.dump(file_name, save_path)
