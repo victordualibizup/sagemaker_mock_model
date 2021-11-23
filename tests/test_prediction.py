@@ -1,12 +1,12 @@
 import numpy as np
 import pytest
 
-from iac_exercise.predict import make_prediction
+from sg_custom_catboost.predict import make_prediction
 
 
 def test_make_prediction(sample_input_data):
-    expected_no_predictions = 49
-    expected_first_prediction_value = 50.8
+    expected_no_predictions = 40
+    expected_first_prediction_value = 49
 
     result = make_prediction(input_data=sample_input_data)
 
