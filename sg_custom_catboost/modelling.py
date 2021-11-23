@@ -7,6 +7,74 @@ from sg_custom_catboost.config.core import config
 from catboost import CatBoostRegressor
 
 
+def no_processed_training_model(dataframe: pd.DataFrame, pipeline):
+    """
+
+    Parameters
+    ----------
+    dataframe
+    pipeline
+
+    Returns
+    -------
+
+    """
+    model_data_dict = utils.create_processed_data_split(dataframe, pipeline)
+    trained_model_data_dict = training_model(model_data_dict)
+
+    return trained_model_data_dict
+
+
+def processed_training_model(dataframe: pd.DataFrame):
+    """
+
+    Parameters
+    ----------
+    dataframe
+
+    Returns
+    -------
+
+    """
+    model_data_dict = utils.create_data_split(dataframe)
+    trained_model_data_dict = training_model(model_data_dict)
+
+    return trained_model_data_dict
+
+def no_processed_evaluating_model(dataframe: pd.DataFrame):
+    """
+
+    Parameters
+    ----------
+    dataframe
+
+    Returns
+    -------
+
+    """
+    model_data_dict = utils.create_processed_data_split(dataframe, pipeline)
+    trained_model_data_dict = evaluating_model(model_data_dict)
+
+    return trained_model_data_dict
+
+
+def processed_evaluating_model(dataframe: pd.DataFrame):
+    """
+
+    Parameters
+    ----------
+    dataframe
+
+    Returns
+    -------
+
+    """
+    model_data_dict = utils.create_data_split(dataframe)
+    trained_model_data_dict = evaluating_model(model_data_dict)
+
+    return trained_model_data_dict
+
+
 def training_model(model_data_dict: Dict) -> Dict:
     """
 

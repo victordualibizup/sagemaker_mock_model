@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn.pipeline import Pipeline
 from sg_custom_catboost.config.core import RAW_DATASET_DIR, PROCESSED_DATASET_DIR, PIPELINE_DIR, TRAINED_MODEL_DIR, \
     config
+from sg_custom_catboost.features import *
 
 # TODO: FIX VERSION VARIABLE
 _version = "0.0.1"

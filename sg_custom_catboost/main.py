@@ -112,9 +112,7 @@ def train_model() -> None:
         )
     )
 
-    train_data = utils.create_data_split(processed_train_data)
-
-    trained_model_data_dict = modelling.training_model(train_data)
+    trained_model_data_dict = modelling.processed_training_model(processed_train_data)
 
     model = trained_model_data_dict[config.app_config.model_data_model]
     data_target = trained_model_data_dict[config.app_config.model_data_target]
@@ -142,8 +140,7 @@ def evaluate_model() -> None:
         )
     )
 
-    test_data = utils.create_data_split(processed_test_data)
-    test_model_data_dict = modelling.evaluating_model(test_data)
+    test_model_data_dict = modelling.processed_evaluating_model(processed_test_data)
     data_target = test_model_data_dict[config.app_config.model_data_target]
     predictions = test_model_data_dict[config.app_config.model_data_predictions]
 
