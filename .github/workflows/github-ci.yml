@@ -24,4 +24,4 @@ jobs:
           make install
       - name: Test Package
         run: |
-          make test-all
+          make test
