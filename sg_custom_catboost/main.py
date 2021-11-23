@@ -3,9 +3,8 @@ import pickle
 import os
 import fire
 from sklearn import metrics
-from sg_custom_catboost import pipeline, data_manager, utils
+from sg_custom_catboost import pipeline, data_manager, utils, modelling
 from sg_custom_catboost.config.core import PROCESSED_DATASET_DIR, config
-from catboost import CatBoostRegressor
 
 
 # TODO: REFACTOR THIS FUNCTION
@@ -106,55 +105,49 @@ def train_model() -> None:
     -------
 
     """
-    processed_train_data = data_manager.load_dataset(
-        file_name=config.app_config.latest_train_data,
-        raw_data=False
-    )
-
-    processed_test_data = data_manager.load_dataset(
-        file_name=config.app_config.latest_test_data,
-        raw_data=False
-    )
-
     processed_train_data = utils.filter_dataframe(
-        processed_train_data
+        data_manager.load_dataset(
+            file_name=config.app_config.latest_train_data,
+            raw_data=False
+        )
     )
+
+    train_data = utils.create_data_split(processed_train_data)
+
+    trained_model_data_dict = modelling.training_model(train_data)
+
+    model = trained_model_data_dict[config.app_config.model_data_model]
+    data_target = trained_model_data_dict[config.app_config.model_data_target]
+    predictions = trained_model_data_dict[config.app_config.model_data_predictions]
+
+    # TODO: CREATE MODEL TIMESTAMP AND LATEST
+    utils.save_regression_metrics(data_target, predictions)
+    data_manager.save_model(
+        model
+    )
+
+
+def evaluate_model() -> None:
+    """
+
+    Returns
+    -------
+
+    """
 
     processed_test_data = utils.filter_dataframe(
-        processed_test_data
+        data_manager.load_dataset(
+            file_name=config.app_config.latest_test_data,
+            raw_data=False
+        )
     )
 
-    X_train = processed_train_data.drop(
-        config.model_config.target,
-        axis=1
-    )
-    X_test = processed_test_data.drop(
-        config.model_config.target,
-        axis=1
-    )
+    test_data = utils.create_data_split(processed_test_data)
+    test_model_data_dict = modelling.evaluating_model(test_data)
+    data_target = test_model_data_dict[config.app_config.model_data_target]
+    predictions = test_model_data_dict[config.app_config.model_data_predictions]
 
-    y_train = processed_train_data[config.model_config.target]
-    y_test = processed_test_data[config.model_config.target]
-
-    model = CatBoostRegressor(
-        iterations=config.model_config.catboost_itr,
-        learning_rate=config.model_config.catboost_lr,
-        logging_level=config.model_config.catboost_logging_state
-    )
-
-    model.fit(
-        X_train,
-        y_train
-    )
-
-    y_pred = model.predict(
-        X_test
-    )
-    # TODO: CREATE MODEL TIMESTAMP AND LATEST
-    utils.save_regression_metrics(y_test, y_pred)
-    data_manager.save_model(
-        config.model_config.model_save_file
-    )
+    utils.save_regression_metrics(data_target, predictions)
 
 
 def run():
@@ -166,6 +159,7 @@ def run():
     """
     features()
     train_model()
+    evaluate_model()
 
 
 def cli():
