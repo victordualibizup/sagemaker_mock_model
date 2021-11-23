@@ -9,7 +9,7 @@ package_name: sg_custom_catboost
 training_data_file: drinks_data_train.csv
 new_data_file: drinks_data_valid.csv
 prod_data_file: drinks_data_prod.csv
-pytest_df: fixture_test_df.csv
+pytest_df: drinks_data_prod.csv
 latest_timestamp: latest
 processed_train_data: data_train
 processed_test_data: data_test
@@ -18,9 +18,16 @@ latest_train_data: data_train_latest.csv
 latest_test_data: data_test_latest.csv
 metrics_file_name: metrics
 
+# Model Data Dictionary Keys
+model_data_features: data_features
+model_data_target: data_target
+model_data_predictions: predictions
+model_data_model: model
+
+
 # Model and Pipeline
 model_name: catboost_model_latest.pkl
-model_save_file: catboost_model_output
+model_save_file: catboost_model_output.pkl
 
 # Variables
 target: ibu
