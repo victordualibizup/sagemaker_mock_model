@@ -22,12 +22,6 @@ jobs:
       - name: Install Dependencies
         run: |
           make install
-      - name: Lint with Flake8
-        run: |
-          make lint
-      - name: Check Typing
-        run: |
-          make typing
       - name: Test Package
         run: |
-          make test-all
+          make test

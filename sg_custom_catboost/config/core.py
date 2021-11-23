@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, List
+from typing import List
 
 from pydantic import BaseModel
 from strictyaml import YAML, load
@@ -8,30 +8,48 @@ import sg_custom_catboost
 
 PACKAGE_ROOT = Path(sg_custom_catboost.__file__).resolve().parent
 ROOT = PACKAGE_ROOT.parent
-DATA_DIR = ROOT / "data"
-DATASET_DIR = DATA_DIR / "processed"
+ARTIFACTS_DIR = ROOT / "artifacts"
+DATA_DIR = ARTIFACTS_DIR / "data"
+RAW_DATASET_DIR = DATA_DIR / "raw"
+PROCESSED_DATASET_DIR = DATA_DIR / "processed"
+TRAINED_MODEL_DIR = ARTIFACTS_DIR / "trained_models"
+PIPELINE_DIR = ARTIFACTS_DIR / "pipeline"
+METRICS_DIR = ARTIFACTS_DIR / "metrics"
 CONFIG_FILE_PATH = ROOT / "config.yml"
-TRAINED_MODEL_DIR = ROOT / "trained_models"
 
 
 class AppConfig(BaseModel):
     """
     Configuration not relevant for model.
     """
+
     author: str
     squad: str
     package_name: str
     training_data_file: str
     new_data_file: str
+    prod_data_file: str
     pytest_df: str
+    latest_timestamp: str
+    processed_train_data: str
+    processed_test_data: str
+    model_name: str
+    pipeline_name: str
+    latest_train_data: str
+    latest_test_data: str
+    metrics_file_name: str
+    model_data_features: str
+    model_data_target: str
+    model_data_predictions: str
+    model_data_model: str
 
 
 class ModelConfig(BaseModel):
     """
     Configuration for model purposes.
     """
-    pipeline_name: str
-    pipeline_save_file: str
+
+    model_save_file: str
     target: str
     diff_create_var: List[str]
     target_dg: str
@@ -44,12 +62,14 @@ class ModelConfig(BaseModel):
     ebc_limit: int
     ibu_limit: int
     imputer_variables: List[str]
-    no_standard_scaler_variables: str
+    no_standard_scaler_variables: List
     to_drop_train: List[str]
     target_diff_transformer_name: str
     drop_variables_transformer_name: str
     standard_scaler_transformer_name: str
-    catboost_params: Dict[str, float]
+    catboost_itr: float
+    catboost_lr: float
+    catboost_logging_state: str
     random_state: int
     test_size: float
 

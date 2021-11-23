@@ -8,11 +8,26 @@ package_name: sg_custom_catboost
 # Data Files
 training_data_file: drinks_data_train.csv
 new_data_file: drinks_data_valid.csv
-pytest_df: fixture_test_df.csv
+prod_data_file: drinks_data_prod.csv
+pytest_df: drinks_data_prod.csv
+latest_timestamp: latest
+processed_train_data: data_train
+processed_test_data: data_test
+pipeline_name: example_pipeline.pkl
+latest_train_data: data_train_latest.csv
+latest_test_data: data_test_latest.csv
+metrics_file_name: metrics
 
-# Pipeline
-pipeline_name: regression_model_iac
-pipeline_save_file: regression_model_output_iac
+# Model Data Dictionary Keys
+model_data_features: data_features
+model_data_target: data_target
+model_data_predictions: predictions
+model_data_model: model
+
+
+# Model and Pipeline
+model_name: catboost_model_latest.pkl
+model_save_file: catboost_model_output.pkl
 
 # Variables
 target: ibu
@@ -59,9 +74,9 @@ drop_variables_transformer_name: drop_variables
 standard_scaler_transformer_name: standard_scaler
 
 # CatBoost Configuration
-catboost_params:
-  iterations: 450.0
-  learning_rate: 0.01
+catboost_itr: 450.0
+catboost_lr: 0.01
+catboost_logging_state: Silent
 
 # Split Configuration
 random_state: 16
