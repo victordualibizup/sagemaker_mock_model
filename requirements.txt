@@ -31,3 +31,7 @@ fastapi==0.70.0
 
 ## CLI
 fire==0.4.0
+
+### API
+flask
+gunicorn
