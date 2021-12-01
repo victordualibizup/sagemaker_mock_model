@@ -22,7 +22,13 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 # linking them together. Likewise, pip leaves the install caches populated which uses
 # a significant amount of space. These optimizations save a fair amount of space in the
 # image, which reduces start up time.
-COPY . .
+COPY sg_custom_catboost/ /opt/program/sg_custom_catboost
+COPY test_dir /opt/ml
+COPY  artifacts/ /opt/program/artifacts
+COPY config.yml /opt/program
+COPY requirements.txt /opt/program
+
+WORKDIR /opt/program
 RUN pip install -r requirements.txt
 
 # Set some environment variables. PYTHONUNBUFFERED keeps Python from buffering our standard
@@ -32,6 +38,6 @@ RUN pip install -r requirements.txt
 
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
-ENV PATH="/opt/program:${PATH}"
+ENV PATH="/opt/program/sg_custom_catboost:${PATH}"
 
-
+WORKDIR /opt/program/sg_custom_catboost
