@@ -25,11 +25,11 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY sg_custom_catboost/ /opt/program/sg_custom_catboost
 COPY test_dir /opt/ml
 COPY  artifacts/ /opt/program/artifacts
-COPY config.yml /opt/program
-COPY requirements.txt /opt/program
+COPY requirements.txt config.yml setup.py README.md /opt/program/
+
 
 WORKDIR /opt/program
-RUN pip install -r requirements.txt
+RUN pip install .
 
 # Set some environment variables. PYTHONUNBUFFERED keeps Python from buffering our standard
 # output stream, which means that logs can be delivered to the user quickly. PYTHONDONTWRITEBYTECODE
@@ -39,5 +39,6 @@ RUN pip install -r requirements.txt
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
 ENV PATH="/opt/program/sg_custom_catboost:${PATH}"
+ENV PYTHONPATH "${PYTHONPATH}:/opt/program"
 
 WORKDIR /opt/program/sg_custom_catboost
