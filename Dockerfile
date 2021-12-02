@@ -2,7 +2,7 @@
 # This is a Python 3 image that uses the nginx, gunicorn, flask stack
 # for serving inferences in a stable way.
 
-FROM ubuntu:20.04
+FROM 111151738448.dkr.ecr.us-east-1.amazonaws.com/ubuntu:20.04
 
 MAINTAINER Amazon AI <sage-learner@amazon.com>
 
