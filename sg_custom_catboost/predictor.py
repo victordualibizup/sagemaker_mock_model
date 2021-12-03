@@ -13,8 +13,8 @@ import traceback
 
 import flask
 import pandas as pd
-from sg_custom_catboost import data_manager
-from sg_custom_catboost.config.core import config
+# import data_manager
+# from config.core import config
 
 prefix = "/opt/ml/"
 model_path = os.path.join(prefix, "model")
@@ -30,7 +30,8 @@ class ScoringService(object):
     def get_model(cls):
         """Get the model object for this instance, loading it if it's not already loaded."""
         if cls.model == None:
-            cls.model = data_manager.load_model(config.model_config.model_save_file)
+            with open(os.path.join(model_path, "decision-tree-model.pkl"), "rb") as inp:
+                cls.model = pickle.load(inp)
         return cls.model
 
     @classmethod

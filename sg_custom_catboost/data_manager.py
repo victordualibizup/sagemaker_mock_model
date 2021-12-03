@@ -6,7 +6,7 @@ import joblib
 import pandas as pd
 from sklearn.pipeline import Pipeline
 
-from sg_custom_catboost.config.core import (
+from config.core import (
     PIPELINE_DIR,
     PROCESSED_DATASET_DIR,
     RAW_DATASET_DIR,
