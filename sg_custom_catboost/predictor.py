@@ -13,7 +13,7 @@ import traceback
 
 import flask
 import pandas as pd
-from sg_custom_catboost import data_manager
+from sg_custom_catboost import data_manager, utils
 from sg_custom_catboost.config.core import config
 
 prefix = "/opt/ml/"
@@ -40,7 +40,12 @@ class ScoringService(object):
             input (a pandas dataframe): The data on which to do the predictions. There will be
                 one prediction per row in the dataframe"""
         clf = cls.get_model()
-        return clf.predict(input)
+        processed_input = utils.filter_dataframe(
+            data_manager.load_dataset(
+                file_name=config.app_config.latest_test_data, raw_data=False
+            )
+        )
+        return clf.predict(processed_input)
 
 
 # The flask app for serving predictions

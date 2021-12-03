@@ -25,17 +25,17 @@ from sg_custom_catboost.config.core import PROCESSED_DATASET_DIR, config
 
 # These are the paths to where SageMaker mounts interesting things in your container.
 #
-# prefix = '/opt/ml/'
+prefix = '/opt/ml/'
 #
-# input_path = prefix + 'input/data'
-# output_path = os.path.join(prefix, 'output')
-# model_path = os.path.join(prefix, 'model')
-# param_path = os.path.join(prefix, 'input/config/hyperparameters.json')
+input_path = prefix + 'input/data'
+output_path = os.path.join(prefix, 'output')
+model_path = os.path.join(prefix, 'model')
+param_path = os.path.join(prefix, 'input/config/hyperparameters.json')
 #
 # # This algorithm has a single channel of input data called 'training'. Since we run in
 # # File mode, the input files are copied to the directory specified here.
-# channel_name = 'training'
-# training_path = os.path.join(input_path, channel_name)
+channel_name = 'training'
+training_path = os.path.join(input_path, channel_name)
 #
 
 # The function to execute the training.
@@ -56,12 +56,11 @@ def train():
     trained_model_data_dict = modelling.processed_training_model(processed_train_data)
 
     model = trained_model_data_dict[config.app_config.model_data_model]
-    data_target = trained_model_data_dict[config.app_config.model_data_target]
-    predictions = trained_model_data_dict[config.app_config.model_data_predictions]
 
     # TODO: CREATE MODEL TIMESTAMP AND LATEST
-    utils.save_regression_metrics(data_target, predictions)
-    data_manager.save_model(model)
+    with open(os.path.join(model_path, 'catboost-model.pkl'), 'wb') as out:
+        pickle.dump(model, out)
+    print('Training complete.')
 
 
 if __name__ == '__main__':

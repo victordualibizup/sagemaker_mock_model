@@ -1,3 +1,5 @@
+
+  
 # Build an image that can do training and inference in SageMaker
 # This is a Python 3 image that uses the nginx, gunicorn, flask stack
 # for serving inferences in a stable way.
@@ -24,7 +26,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 # image, which reduces start up time.
 COPY sg_custom_catboost/ /opt/program/sg_custom_catboost
 COPY test_dir /opt/ml
-COPY  artifacts/ /opt/program/artifacts
+COPY artifacts/ /opt/program/artifacts
 COPY requirements.txt config.yml setup.py README.md /opt/program/
 
 
