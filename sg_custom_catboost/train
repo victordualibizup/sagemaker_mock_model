@@ -26,7 +26,7 @@ param_path = os.path.join(prefix, 'input/config/hyperparameters.json')
 
 # This algorithm has a single channel of input data called 'training'. Since we run in
 # File mode, the input files are copied to the directory specified here.
-channel_name='training'
+channel_name='train'
 training_path = os.path.join(input_path, channel_name)
 
 # The function to execute the training.
