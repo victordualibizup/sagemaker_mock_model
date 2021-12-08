@@ -10,10 +10,10 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t insights-custom-sklearn:latest .
-      - docker tag insights-custom-sklearn:latest 111151738448.dkr.ecr.us-east-1.amazonaws.com/insights-custom-sklearn:latest      
+      - docker build -t bella-learning-categorization-model-training:latest .
+      - docker tag bella-learning-categorization-model-training:latest 111151738448.dkr.ecr.us-east-1.amazonaws.com/bella-learning-categorization-model-training:latest      
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 111151738448.dkr.ecr.us-east-1.amazonaws.com/insights-custom-sklearn:latest
+      - docker push 111151738448.dkr.ecr.us-east-1.amazonaws.com/bella-learning-categorization-model-training:latest
