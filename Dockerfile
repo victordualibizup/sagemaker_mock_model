@@ -30,7 +30,7 @@ RUN pip install -r requirements.txt
 
 
 COPY sg_custom_catboost/ /opt/program
-#  COPY local_test /opt/ml      
+#  COPY local_test /opt/ml       
 COPY artifacts/ /opt/program/artifacts
 COPY config.yml /opt/program
 
