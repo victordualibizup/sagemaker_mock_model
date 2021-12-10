@@ -24,7 +24,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 # image, which reduces start up time.
 RUN mkdir -p /opt/program/
 COPY requirements.txt /opt/program
-WORKDIR /opt/program
+WORKDIR /opt/program 
 RUN pip install -r requirements.txt
 
 
