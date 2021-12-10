@@ -44,6 +44,6 @@ COPY config.yml /opt/program
 
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
-ENV PATH="/opt/program/:${PATH}"
+ENV PATH="/opt/program/:${PATH}" 
 
 WORKDIR /opt/program
